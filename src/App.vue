@@ -27,15 +27,45 @@ const gl = {
   outputColorSpace: SRGBColorSpace,
   toneMapping: NoToneMapping,
 };
+var tolerance = 0.00001;
 
 function onClick(ev) {
-    console.log(ev)
+  console.log(ev)
   if (ev) {
-    if(ev.object.position.y ==3){
-      ev.object.position.y = 0;
+    if(1-ev.object.position.y<tolerance){
+      let aux = setInterval(function() {
+        ev.object.position.y -=0.1;
+        if(ev.object.position.y<tolerance){
+          clearInterval(aux)
+        }
+      }, 10);
     }else {
-    if(ev.object.position.y ==0){
-      setTimeout(() => {ev.object.position.y = ev.object.position.y + 0.1}, 100);}
+      let aux = setInterval(function() {
+        ev.object.position.y +=0.1;
+        if(1-ev.object.position.y<tolerance){
+          clearInterval(aux)
+        }
+      }, 10);
+    }
+  }
+}
+function onClick1(ev) {
+  console.log(ev)
+  if (ev) {
+    if(1-ev.object.position.y<tolerance){
+      let aux = setInterval(function() {
+        ev.object.position.y -=0.1;
+        if(ev.object.position.y<tolerance){
+          clearInterval(aux)
+        }
+      }, 10);
+    }else {
+      let aux = setInterval(function() {
+        ev.object.position.y +=0.1;
+        if(1-ev.object.position.y<tolerance){
+          clearInterval(aux)
+        }
+      }, 10);
     }
   }
 }
@@ -46,6 +76,9 @@ function onClick(ev) {
   <TresCanvas v-bind="gl" window-size>
     <TresPerspectiveCamera :position="[15, 0, 0]"  :look-at="[0, 0, 0]"/>
     <OrbitControls/>
+    <TresGroup 
+      @click="(e)=>{console.log(e)}"
+    >
     <TresMesh :position="[0, 0, -3*lengthBooks]" cast-shadow>
     <TresBoxGeometry :args="[widthBooks, heightBooks, lengthBooks]" />
       <TresMeshToonMaterial color="blue" />
@@ -55,7 +88,9 @@ function onClick(ev) {
       <TresMeshToonMaterial color="blue" />
     </TresMesh>
     <TresMesh ref="boxRef" :position="[0, 0, -lengthBooks]" cast-shadow
-      @click="onClick">
+      @pointer-enter="onClick"
+      @pointer-leave="onClick1"
+      >
       <TresBoxGeometry :args="[widthBooks, heightBooks, lengthBooks]"/>
       <TresMeshToonMaterial color="gray" />
     </TresMesh>
@@ -75,6 +110,7 @@ function onClick(ev) {
     <TresBoxGeometry :args="[widthBooks, heightBooks, lengthBooks]" />
       <TresMeshNormalMaterial color="blue" />
     </TresMesh>
+    </TresGroup>
     <TresDirectionalLight :position="[0, 15, 15]" :look-at="[0,0,0]" :intensity="1" cast-shadow />
   </TresCanvas>
 </template>
