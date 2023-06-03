@@ -2,6 +2,7 @@
 import { reactive,watchEffect,shallowRef } from 'vue';
 import { BasicShadowMap, SRGBColorSpace, NoToneMapping } from 'three';
 import { extend,TresCanvas,useRenderLoop,useTexture } from '@tresjs/core';
+import {MainTextComponent} from './components/mainText.vue'
 
 import { TextGeometry } from 'three/addons/geometries/TextGeometry'
 import { FontLoader } from 'three/addons/loaders/FontLoader'
@@ -152,7 +153,7 @@ function onClick(ev) {
   <h1 class="text" data-value="Hi I am," @mouseover="func1">
     Hi I am,
   </h1>
-  <h1 class="name" data-value="Roberto Alvarado" @mouseover="func1">
+  <h1 class="text" data-value="Roberto Alvarado" @mouseover="func1">
     Roberto Alvarado 
   </h1>
   <span class="text">Gekki</span>
